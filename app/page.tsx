@@ -83,9 +83,9 @@ export default function HomePage() {
         />
 
         {/* Top 10 Trending Section */}
-        <section className="px-4 mt-8 mb-8">
-          <h2 className="text-xl font-bold mb-4">Top 10 Trending</h2>
-          <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+        <section className="mt-6 mb-6">
+          <h2 className="text-lg font-bold mb-3 px-4">Top 10 Trending</h2>
+          <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-2">
             {trending.map((drama, index) => (
               <DramaCard
                 key={drama.id}
@@ -99,9 +99,14 @@ export default function HomePage() {
         </section>
 
         {/* Latest Releases Section */}
-        <section className="px-4 mb-8">
-          <h2 className="text-xl font-bold mb-4">Latest Releases</h2>
-          <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+        <section className="mb-6">
+          <div className="flex items-center justify-between px-4 mb-3">
+            <h2 className="text-lg font-bold">Latest Releases</h2>
+            <button className="text-nongton-gray text-sm hover:text-nongton-white transition-colors">
+              See All →
+            </button>
+          </div>
+          <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-2">
             {latest.map((drama) => (
               <DramaCard
                 key={drama.id}
@@ -109,15 +114,16 @@ export default function HomePage() {
                 title={drama.title}
                 cover={drama.cover}
                 showBadge
+                variant="large"
               />
             ))}
           </div>
         </section>
 
         {/* For You Section */}
-        <section className="px-4 mb-8">
-          <h2 className="text-xl font-bold mb-4">For You</h2>
-          <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+        <section className="mb-6">
+          <h2 className="text-lg font-bold mb-3 px-4">For You</h2>
+          <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-2">
             {DUMMY_DRAMAS.map((drama) => (
               <DramaCard
                 key={drama.id}
