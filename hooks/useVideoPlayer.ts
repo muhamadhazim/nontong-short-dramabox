@@ -23,11 +23,8 @@ export function useVideoPlayer({ dramaId, currentEpisode, selectedQuality, onNex
   const [showStats, setShowStats] = useState(false);
   const [doubleTapSide, setDoubleTapSide] = useState<'left' | 'right' | null>(null);
 
-  // Shared state for playback - removed internal state, use videoState directly
-  // const [internalIsPlaying, setInternalIsPlaying] = useState(true);
-  
   // We need to pass initial playing state to controls, assuming true for autoplay
-  const controls = usePlayerControls({ isPlaying: true }); // Simplified for now
+  const controls = usePlayerControls({ isPlaying: true }); 
   
   // Ref to hold the save function to avoid circular dependency
   const persistenceSave = useRef<() => void>(undefined);
@@ -40,18 +37,13 @@ export function useVideoPlayer({ dramaId, currentEpisode, selectedQuality, onNex
     controlsTimeoutRef: controls.controlsTimeoutRef
   });
 
-  // Removed problematic useEffect sync
-  // useEffect(() => {
-  //   setInternalIsPlaying(videoState.isPlaying);
-  // }, [videoState.isPlaying]);
-
   const { saveCurrentProgress } = usePlayerPersistence({
     dramaId,
     currentEpisode,
     videoRef: videoState.videoRef,
     isChangingQualityRef,
     lastTimeRef,
-    isPlaying: videoState.isPlaying, // Use videoState directly
+    isPlaying: videoState.isPlaying,
     selectedQuality
   });
   
@@ -100,7 +92,15 @@ export function useVideoPlayer({ dramaId, currentEpisode, selectedQuality, onNex
     
     // Auto-resume playback on double tap
     if (video.paused) {
-      video.play().catch(() => {});
+      video.play().catch(() => {}).then(() => {
+         // Re-apply seek after playback starts if needed, 
+         // but usually setting currentTime before play() is enough.
+         // However, some browsers might reset currentTime if play() is called immediately.
+         // Let's ensure the seek sticks.
+         if (Math.abs(video.currentTime - newTime) > 1) {
+             video.currentTime = newTime;
+         }
+      });
     }
   }, [showSkipAnimation, videoState]);
 

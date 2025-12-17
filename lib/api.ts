@@ -8,8 +8,7 @@ const FALLBACK_IMAGE = "https://picsum.photos/seed/placeholder/400/600";
 const isClient = typeof window !== 'undefined';
 
 // Helper to fetch from API or proxy
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function fetchAPI(endpoint: string, revalidate: number = 1800): Promise<any> {
+async function fetchAPI<T>(endpoint: string, revalidate: number = 1800): Promise<T> {
   try {
     let url: string;
     
@@ -36,9 +35,12 @@ async function fetchAPI(endpoint: string, revalidate: number = 1800): Promise<an
     return await response.json();
   } catch (error) {
     console.error(`Error fetching ${endpoint}:`, error);
-    return [];
+    // Return empty array as fallback if T is an array type, otherwise null
+    // Ideally we should propagate error or use a Result type
+    return [] as unknown as T; 
   }
 }
+
 
 // Transform API drama to our component format
 export function transformDrama(drama: Drama): DramaCard {
@@ -59,19 +61,20 @@ export function transformDrama(drama: Drama): DramaCard {
 
 // API Functions
 export async function getForYou(): Promise<DramaCard[]> {
-  const data: Drama[] = await fetchAPI('foryou', 3600);
+  const data = await fetchAPI<Drama[]>('foryou', 3600);
   return data.map(transformDrama);
 }
 
 export async function getLatest(): Promise<DramaCard[]> {
-  const data: Drama[] = await fetchAPI('latest', 1800);
+  const data = await fetchAPI<Drama[]>('latest', 1800);
   return data.map(transformDrama);
 }
 
 export async function getTrending(): Promise<DramaCard[]> {
-  const data: Drama[] = await fetchAPI('Trending', 1800);
+  const data = await fetchAPI<Drama[]>('Trending', 1800);
   return data.map(transformDrama);
 }
+
 
 export async function searchDramas(query: string): Promise<DramaCard[]> {
   if (!query.trim()) return [];

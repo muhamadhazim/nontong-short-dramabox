@@ -48,6 +48,7 @@ nongton-app/
 ├── components/
 │   ├── home/              # Home page sections
 │   │   ├── HeroBanner.tsx
+│   │   ├── RecommendedSection.tsx
 │   │   ├── TrendingSection.tsx
 │   │   └── LatestSection.tsx
 │   ├── layout/            # Layout components
@@ -55,11 +56,34 @@ nongton-app/
 │   │   ├── BottomNav.tsx
 │   │   └── MobileWrapper.tsx
 │   ├── shared/            # Shared components
-│   │   ├── DramaCard.tsx
+│   │   ├── DramaCardComponent/ # Refactored DramaCard
+│   │   │   ├── index.tsx
+│   │   │   ├── DramaCardStandard.tsx
+│   │   │   ├── DramaCardLarge.tsx
+│   │   │   ├── DramaCardRanked.tsx
+│   │   │   └── types.ts
+│   │   ├── DramaCard.tsx     # Re-export for compatibility
+│   │   ├── DramaCarousel.tsx
 │   │   └── ModernDramaCard.tsx
+│   ├── watch/             # Watch page components
+│   │   ├── controls/
+│   │   │   └── MobileControls.tsx
+│   │   ├── EpisodeList.tsx
+│   │   ├── VideoControls.tsx
+│   │   ├── VideoPlayer.tsx
+│   │   └── WatchClient.tsx
 │   └── ui/                # Reusable UI components
+├── hooks/                 # Custom React Hooks
+│   ├── useDeviceDetection.ts
+│   ├── usePlayerControls.ts
+│   ├── usePlayerPersistence.ts
+│   ├── useVideoPlayer.ts
+│   ├── useVideoState.ts
+│   └── useWatchData.ts
 ├── lib/                   # Utilities & API
 │   ├── api.ts             # API client functions
+│   ├── constants.ts       # App constants
+│   ├── headers.ts         # Server/Client headers helper
 │   └── utils.ts           # Helper functions
 └── types/                 # TypeScript interfaces
 ```
