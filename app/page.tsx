@@ -110,12 +110,12 @@ export default function HomePage() {
         />
 
         {/* Trending Section */}
-        <section className="mt-6 mb-8">
-          <div className="flex items-center gap-2 px-4 sm:px-6 mb-4">
-            <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-nongton-red" />
-            <h2 className="text-lg sm:text-xl font-bold">Trending Now</h2>
+        <section className="mt-5 mb-7">
+          <div className="flex items-center gap-2 px-4 mb-3">
+            <TrendingUp className="w-4 h-4 text-nongton-red" />
+            <h2 className="text-base sm:text-lg font-bold">Trending Now</h2>
           </div>
-          <div className="flex gap-3 sm:gap-4 overflow-x-auto no-scrollbar px-4 sm:px-6">
+          <div className="flex gap-3 overflow-x-auto no-scrollbar px-4">
             {trending.map((drama) => (
               <ModernDramaCard
                 key={drama.id}
@@ -132,17 +132,17 @@ export default function HomePage() {
         </section>
 
         {/* Latest Releases Section */}
-        <section className="mb-8">
-          <div className="flex items-center justify-between px-4 sm:px-6 mb-4">
+        <section className="mb-7">
+          <div className="flex items-center justify-between px-4 mb-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-nongton-red" />
-              <h2 className="text-lg sm:text-xl font-bold">New Releases</h2>
+              <Sparkles className="w-4 h-4 text-nongton-red" />
+              <h2 className="text-base sm:text-lg font-bold">New Releases</h2>
             </div>
             <button className="text-nongton-gray text-xs sm:text-sm hover:text-nongton-red transition-colors font-medium">
               View All →
             </button>
           </div>
-          <div className="flex gap-3 sm:gap-4 overflow-x-auto no-scrollbar px-4 sm:px-6">
+          <div className="flex gap-3 overflow-x-auto no-scrollbar px-4">
             {latest.map((drama) => (
               <ModernDramaCard
                 key={drama.id}
@@ -160,12 +160,12 @@ export default function HomePage() {
         </section>
 
         {/* Recommended Section */}
-        <section className="mb-8">
-          <div className="flex items-center gap-2 px-4 sm:px-6 mb-4">
-            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-nongton-red" />
-            <h2 className="text-lg sm:text-xl font-bold">Quick Watch</h2>
+        <section className="mb-7">
+          <div className="flex items-center gap-2 px-4 mb-3">
+            <Clock className="w-4 h-4 text-nongton-red" />
+            <h2 className="text-base sm:text-lg font-bold">Quick Watch</h2>
           </div>
-          <div className="flex gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar px-4 sm:px-6">
+          <div className="flex gap-2.5 overflow-x-auto no-scrollbar px-4">
             {recommended.map((drama) => (
               <ModernDramaCard
                 key={drama.id}
