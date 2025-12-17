@@ -40,19 +40,28 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ```
 nongton-app/
 ├── app/                    # Next.js App Router pages
-│   ├── page.tsx           # Home page
+│   ├── api/               # API routes
 │   ├── explore/           # Explore page
-│   └── profile/           # Profile page
+│   ├── search/            # Search page
+│   ├── watch/             # Watch page (Dynamic routes)
+│   └── page.tsx           # Home page
 ├── components/
+│   ├── home/              # Home page sections
+│   │   ├── HeroBanner.tsx
+│   │   ├── TrendingSection.tsx
+│   │   └── LatestSection.tsx
 │   ├── layout/            # Layout components
-│   │   ├── MobileWrapper.tsx
-│   │   └── BottomNav.tsx
-│   ├── home/              # Home page components
-│   │   └── HeroBanner.tsx
-│   └── shared/            # Shared components
-│       └── DramaCard.tsx
-└── lib/                   # Utilities
-    └── utils.ts
+│   │   ├── AppHeader.tsx
+│   │   ├── BottomNav.tsx
+│   │   └── MobileWrapper.tsx
+│   ├── shared/            # Shared components
+│   │   ├── DramaCard.tsx
+│   │   └── ModernDramaCard.tsx
+│   └── ui/                # Reusable UI components
+├── lib/                   # Utilities & API
+│   ├── api.ts             # API client functions
+│   └── utils.ts           # Helper functions
+└── types/                 # TypeScript interfaces
 ```
 
 ## 🎨 Design System
@@ -75,12 +84,12 @@ nongton-app/
 ## 📱 Pages
 
 - **Home (/)**: Hero banner, Top 10 Trending, Latest Releases, For You sections
-- **Explore (/explore)**: Coming soon
-- **Profile (/profile)**: Coming soon
+- **Explore (/explore)**: Browse genres, trending searches, and top dramas
+- **Search (/search)**: Search functionality for dramas
 
 ## 🔧 Tech Stack
 
-- **Framework**: Next.js 14+
+- **Framework**: Next.js 15+
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
@@ -91,10 +100,10 @@ nongton-app/
 
 ✅ Phase 1: Project setup & design system  
 ✅ Phase 2: Core components (MobileWrapper, BottomNav, HeroBanner)  
-✅ Phase 3: Home page UI with dummy data  
-⏳ Phase 4: API integration (DramaBox API)  
-⏳ Phase 5: Player page  
-⏳ Phase 6: Search & Explore features  
+✅ Phase 3: Home page UI  
+✅ Phase 4: API integration (DramaBox API)  
+✅ Phase 5: Search & Explore features  
+⏳ Phase 6: Player page  
 
 ---
 

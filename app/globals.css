@@ -43,11 +43,6 @@ body {
   scrollbar-width: none;
 }
 
-/* Smooth Scroll Behavior */
-html {
-  scroll-behavior: smooth;
-}
-
 /* Fade In Animation */
 @keyframes fadeIn {
   from {

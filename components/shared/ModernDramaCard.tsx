@@ -55,7 +55,7 @@ export default function ModernDramaCard({
           alt={title}
           fill
           className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-          sizes={size === "large" ? "100vw" : size === "medium" ? "(max-width: 640px) 160px, 180px" : "(max-width: 640px) 120px, 140px"}
+          sizes={size === "large" ? "(max-width: 640px) 100vw, 300px" : size === "medium" ? "(max-width: 640px) 160px, 180px" : "(max-width: 640px) 120px, 140px"}
           onError={() => setImageError(true)}
         />
         

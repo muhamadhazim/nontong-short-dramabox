@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, TouchEvent } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Star, Play } from 'lucide-react';
+import { encodeData } from '@/lib/utils';
 
 interface Drama {
   id: string;
@@ -78,11 +79,9 @@ export default function DramaCarousel({
 
   const currentDrama = dramas[currentIndex];
 
-  if (!isClient) {
-    return (
-      <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] max-h-[70vh] min-h-[200px] overflow-hidden bg-nongton-card animate-shimmer" />
-    );
-  }
+  // Hydration fix: Always render the structure, but defer client-specific updates
+  // We remove the conditional return null/shimmer that causes tree mismatch
+  // Instead, we use consistent initial render
 
   return (
     <div 
@@ -107,7 +106,7 @@ export default function DramaCarousel({
             fill
             className="object-cover"
             priority={index === 0}
-            sizes="(max-width: 640px) 100vw, 640px"
+            sizes="(max-width: 640px) 100vw, 100vw"
           />
         </div>
       ))}
@@ -179,7 +178,7 @@ export default function DramaCarousel({
           {/* Play Button */}
           <div className="flex gap-2 sm:gap-3 items-center animate-fade-in-delay-3">
             <Link 
-              href={`/watch/${currentDrama.id}`}
+              href={`/watch/${currentDrama.id}?q=${encodeData(currentDrama.title)}`}
               className="bg-nongton-red hover:bg-nongton-red/90 active:scale-95 transition-all text-white px-6 sm:px-10 py-2.5 sm:py-3.5 rounded-lg flex items-center justify-center gap-2 sm:gap-3 font-bold shadow-xl hover:shadow-nongton-red/50 text-sm sm:text-base"
             >
               <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-white" />

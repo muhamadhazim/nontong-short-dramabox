@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import MobileWrapper from "@/components/layout/MobileWrapper";
 import BottomNav from "@/components/layout/BottomNav";
 import AppHeader from "@/components/layout/AppHeader";
@@ -9,7 +10,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import { Flame, TrendingUp, Film } from "lucide-react";
-import { getTrending, getLatest } from "@/lib/api";
+import { getTrending } from "@/lib/api";
 import type { DramaCard } from "@/types/drama";
 
 const GENRES = [
@@ -33,6 +34,7 @@ const CATEGORIES = [
 ];
 
 export default function ExplorePage() {
+  const router = useRouter();
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [trendingDramas, setTrendingDramas] = useState<DramaCard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,6 +57,11 @@ export default function ExplorePage() {
     fetchDramas();
   }, []);
 
+  const handleGenreClick = (genre: string) => {
+    setSelectedGenre(genre);
+    router.push(`/search?q=${encodeURIComponent(genre)}`);
+  };
+
   return (
     <MobileWrapper maxWidth="full">
       <AppHeader title="EXPLORE" />
@@ -69,7 +76,7 @@ export default function ExplorePage() {
               {GENRES.map((genre, index) => (
                 <button
                   key={index}
-                  onClick={() => setSelectedGenre(genre.name)}
+                  onClick={() => handleGenreClick(genre.name)}
                   className={`group px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r ${genre.color} backdrop-blur-sm rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 active:scale-95 border border-white/10 hover:border-nongton-red/50 ${
                     selectedGenre === genre.name ? 'ring-2 ring-nongton-red' : ''
                   }`}
@@ -130,8 +137,8 @@ export default function ExplorePage() {
             )}
           </section>
 
-          {/* Browse by Category */}
-          <section className="mb-8 animate-fade-in-delay-2">
+          {/* Browse by Category - Hidden as per request */}
+          {/* <section className="mb-8 animate-fade-in-delay-2">
             <SectionHeader icon={Film} title="Browse by Category" className="mb-4" />
             
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -151,7 +158,7 @@ export default function ExplorePage() {
                 </button>
               ))}
             </div>
-          </section>
+          </section> */}
         </Container>
       </main>
 

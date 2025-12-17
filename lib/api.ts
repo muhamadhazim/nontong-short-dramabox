@@ -1,4 +1,5 @@
 import { Drama, DramaCard, Episode } from "@/types/drama";
+import { getHeaders } from "@/lib/headers";
 
 const API_BASE_URL = process.env.API_BASE_URL;
 const FALLBACK_IMAGE = "https://picsum.photos/seed/placeholder/400/600";
@@ -7,6 +8,7 @@ const FALLBACK_IMAGE = "https://picsum.photos/seed/placeholder/400/600";
 const isClient = typeof window !== 'undefined';
 
 // Helper to fetch from API or proxy
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function fetchAPI(endpoint: string, revalidate: number = 1800): Promise<any> {
   try {
     let url: string;
@@ -19,7 +21,11 @@ async function fetchAPI(endpoint: string, revalidate: number = 1800): Promise<an
       url = `${API_BASE_URL}/${endpoint}`;
     }
 
+    // Get User-Agent headers
+    const headers = await getHeaders();
+
     const response = await fetch(url, {
+      headers,
       next: { revalidate }
     });
 
@@ -78,7 +84,9 @@ export async function searchDramas(query: string): Promise<DramaCard[]> {
   }
   
   try {
+    const headers = await getHeaders();
     const response = await fetch(url, {
+      headers,
       next: { revalidate: 300 }
     });
     
@@ -96,7 +104,9 @@ export async function searchDramas(query: string): Promise<DramaCard[]> {
 
 export async function getPopularSearches(): Promise<string[]> {
   try {
+    const headers = await getHeaders();
     const response = await fetch(`${API_BASE_URL}/populersearch`, {
+      headers,
       next: { revalidate: 3600 } // Cache for 1 hour
     });
     
@@ -114,9 +124,11 @@ export async function getPopularSearches(): Promise<string[]> {
 
 export async function getAllEpisodes(bookId: string): Promise<Episode[]> {
   try {
+    const headers = await getHeaders();
     const response = await fetch(
       `${API_BASE_URL}/allepisode?bookId=${bookId}`,
       {
+        headers,
         next: { revalidate: 3600 } // Cache for 1 hour
       }
     );

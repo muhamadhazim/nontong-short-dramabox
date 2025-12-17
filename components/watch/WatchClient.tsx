@@ -217,11 +217,15 @@ export default function WatchClient({ dramaId, initialEpisodes, initialDramaDeta
                       </div>
                       <div className="flex justify-between gap-8">
                         <span className="text-nongton-gray">Time:</span>
-                        <span className="text-white">{Math.floor(player.currentTime)}s / {Math.floor(player.duration)}s</span>
+                        <span className="text-white">
+                          {Math.floor(player.currentTime || 0)}s / {Math.floor(player.duration || 0)}s
+                        </span>
                       </div>
                       <div className="flex justify-between gap-8">
                         <span className="text-nongton-gray">Progress:</span>
-                        <span className="text-white">{player.duration ? Math.floor((player.currentTime / player.duration) * 100) : 0}%</span>
+                        <span className="text-white">
+                          {(player.duration ?? 0) > 0 ? Math.floor(((player.currentTime || 0) / (player.duration || 1)) * 100) : 0}%
+                        </span>
                       </div>
                     </div>
                   </div>
