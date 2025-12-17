@@ -1,190 +1,151 @@
 import MobileWrapper from "@/components/layout/MobileWrapper";
 import BottomNav from "@/components/layout/BottomNav";
-import HeroBanner from "@/components/home/HeroBanner";
+import AppHeader from "@/components/layout/AppHeader";
+import DramaCarousel from "@/components/shared/DramaCarousel";
 import ModernDramaCard from "@/components/shared/ModernDramaCard";
-import { Search, TrendingUp, Sparkles, Clock } from "lucide-react";
+import SectionHeader from "@/components/ui/SectionHeader";
+import Container from "@/components/ui/Container";
+import Button from "@/components/ui/Button";
+import { TrendingUp, Sparkles, Clock } from "lucide-react";
+import { getForYou, getLatest, getTrending } from "@/lib/api";
 
-// Dummy data with more metadata
-const DUMMY_DRAMAS = [
-  {
-    id: "1",
-    title: "The Mysterious CEO",
-    cover: "https://picsum.photos/seed/drama1/400/600",
-    tags: ["Romance", "Drama", "CEO"],
-    rating: 4.7,
-    episodes: 80,
-    duration: "2min",
-    description: "A cold CEO meets a struggling artist. Their worlds collide in unexpected ways as secrets from the past resurface.",
-  },
-  {
-    id: "2",
-    title: "Return of the Legend",
-    cover: "https://picsum.photos/seed/drama2/400/600",
-    tags: ["Action", "Revenge"],
-    rating: 4.9,
-    episodes: 100,
-    duration: "3min",
-  },
-  {
-    id: "3",
-    title: "Hidden Marriage Secret",
-    cover: "https://picsum.photos/seed/drama3/400/600",
-    tags: ["Romance", "Marriage"],
-    rating: 4.5,
-    episodes: 65,
-    duration: "2min",
-  },
-  {
-    id: "4",
-    title: "Reborn as a Billionaire",
-    cover: "https://picsum.photos/seed/drama4/400/600",
-    tags: ["Fantasy", "Wealthy"],
-    rating: 4.8,
-    episodes: 90,
-    duration: "3min",
-  },
-  {
-    id: "5",
-    title: "My Ex-Wife's Secret",
-    cover: "https://picsum.photos/seed/drama5/400/600",
-    tags: ["Drama", "Mystery"],
-    rating: 4.6,
-    episodes: 75,
-    duration: "2min",
-  },
-  {
-    id: "6",
-    title: "The Contract Bride",
-    cover: "https://picsum.photos/seed/drama6/400/600",
-    tags: ["Romance", "Contract"],
-    rating: 4.7,
-    episodes: 70,
-    duration: "2min",
-  },
-  {
-    id: "7",
-    title: "Unexpected Love Story",
-    cover: "https://picsum.photos/seed/drama7/400/600",
-    tags: ["Romance", "Comedy"],
-    rating: 4.4,
-    episodes: 60,
-    duration: "3min",
-  },
-  {
-    id: "8",
-    title: "Hidden Heir",
-    cover: "https://picsum.photos/seed/drama8/400/600",
-    tags: ["Drama", "Family"],
-    rating: 4.6,
-    episodes: 85,
-    duration: "2min",
-  },
-];
+export default async function HomePage() {
+  // Fetch data dari API
+  const [allDramas, latestDramas, trendingDramas] = await Promise.all([
+    getForYou(),
+    getLatest(),
+    getTrending()
+  ]);
 
-export default function HomePage() {
-  const featured = DUMMY_DRAMAS[0];
-  const trending = DUMMY_DRAMAS.slice(0, 6);
-  const latest = DUMMY_DRAMAS.slice(0, 6);
-  const recommended = DUMMY_DRAMAS;
+  // Filter out dramas with invalid data and ensure unique IDs
+  const filterValidDramas = (dramas: any[]) => {
+    const seen = new Set();
+    return dramas.filter(d => {
+      if (!d.id || !d.title || !d.cover) return false;
+      if (seen.has(d.id)) return false;
+      seen.add(d.id);
+      return true;
+    });
+  };
+
+  const featuredDramas = filterValidDramas(allDramas).slice(0, 4);
+  const trending = filterValidDramas(trendingDramas).slice(0, 6);
+  const latest = filterValidDramas(latestDramas).slice(0, 6);
+  const recommended = filterValidDramas(allDramas).slice(0, 8);
 
   return (
-    <MobileWrapper>
-      {/* Fixed Header - Full Width */}
-      <header className="fixed top-0 left-0 right-0 bg-gradient-to-b from-nongton-black via-nongton-black/95 to-transparent backdrop-blur-sm z-40 px-4 py-3">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-black text-nongton-red tracking-tight">
-            NONGTON
-          </h1>
-          <button className="p-2 hover:bg-zinc-800/50 rounded-full transition-colors">
-            <Search className="w-5 h-5" />
-          </button>
-        </div>
-      </header>
+    <MobileWrapper maxWidth="full">
+      <AppHeader />
 
-      {/* Main Content */}
-      <main className="pt-14 pb-16">
-        {/* Hero Banner */}
-        <HeroBanner
-          title={featured.title}
-          cover={featured.cover}
-          tags={featured.tags}
-          description={featured.description}
-        />
+      <main className="pt-14 pb-20">
+        {/* Carousel Banner - Full Width */}
+        {featuredDramas.length > 0 && (
+          <DramaCarousel 
+            dramas={featuredDramas.map(d => ({
+              id: d.id,
+              title: d.title,
+              cover: d.cover,
+              tags: d.tags,
+              rating: d.rating,
+              description: d.description
+            }))} 
+            autoPlay={true} 
+            interval={5000} 
+          />
+        )}
 
         {/* Trending Section */}
-        <section className="mt-5 mb-7">
-          <div className="flex items-center gap-2 px-4 mb-3">
-            <TrendingUp className="w-4 h-4 text-nongton-red" />
-            <h2 className="text-base sm:text-lg font-bold">Trending Now</h2>
-          </div>
-          <div className="flex gap-3 overflow-x-auto no-scrollbar px-4">
-            {trending.map((drama) => (
-              <ModernDramaCard
-                key={drama.id}
-                id={drama.id}
-                title={drama.title}
-                cover={drama.cover}
-                rating={drama.rating}
-                episodes={drama.episodes}
-                duration={drama.duration}
-                size="medium"
-              />
-            ))}
-          </div>
-        </section>
+        {trending.length > 0 && (
+          <section className="mt-5 mb-7 animate-fade-in">
+            <Container size="lg">
+              <SectionHeader icon={TrendingUp} title="Trending Now" />
+            </Container>
+            
+            <Container size="lg" noPadding>
+              <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 sm:px-6 lg:px-8">
+                {trending.map((drama) => (
+                  <ModernDramaCard
+                    key={drama.id}
+                    id={drama.id}
+                    title={drama.title}
+                    cover={drama.cover}
+                    rating={drama.rating}
+                    episodes={drama.episodes}
+                    duration={drama.duration}
+                    size="medium"
+                  />
+                ))}
+              </div>
+            </Container>
+          </section>
+        )}
 
         {/* Latest Releases Section */}
-        <section className="mb-7">
-          <div className="flex items-center justify-between px-4 mb-3">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-nongton-red" />
-              <h2 className="text-base sm:text-lg font-bold">New Releases</h2>
-            </div>
-            <button className="text-nongton-gray text-xs sm:text-sm hover:text-nongton-red transition-colors font-medium">
-              View All →
-            </button>
-          </div>
-          <div className="flex gap-3 overflow-x-auto no-scrollbar px-4">
-            {latest.map((drama) => (
-              <ModernDramaCard
-                key={drama.id}
-                id={drama.id}
-                title={drama.title}
-                cover={drama.cover}
-                rating={drama.rating}
-                episodes={drama.episodes}
-                duration={drama.duration}
-                isNew
-                size="medium"
+        {latest.length > 0 && (
+          <section className="mb-7 animate-fade-in-delay">
+            <Container size="lg">
+              <SectionHeader 
+                icon={Sparkles} 
+                title="New Releases"
+                action={
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    className="text-nongton-gray hover:text-nongton-red"
+                  >
+                    View All →
+                  </Button>
+                }
               />
-            ))}
-          </div>
-        </section>
+            </Container>
+
+            <Container size="lg" noPadding>
+              <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 sm:px-6 lg:px-8">
+                {latest.map((drama) => (
+                  <ModernDramaCard
+                    key={drama.id}
+                    id={drama.id}
+                    title={drama.title}
+                    cover={drama.cover}
+                    rating={drama.rating}
+                    episodes={drama.episodes}
+                    duration={drama.duration}
+                    isNew={drama.isNew}
+                    size="medium"
+                  />
+                ))}
+              </div>
+            </Container>
+          </section>
+        )}
 
         {/* Recommended Section */}
-        <section className="mb-7">
-          <div className="flex items-center gap-2 px-4 mb-3">
-            <Clock className="w-4 h-4 text-nongton-red" />
-            <h2 className="text-base sm:text-lg font-bold">Quick Watch</h2>
-          </div>
-          <div className="flex gap-2.5 overflow-x-auto no-scrollbar px-4">
-            {recommended.map((drama) => (
-              <ModernDramaCard
-                key={drama.id}
-                id={drama.id}
-                title={drama.title}
-                cover={drama.cover}
-                rating={drama.rating}
-                episodes={drama.episodes}
-                duration={drama.duration}
-                size="small"
-              />
-            ))}
-          </div>
-        </section>
+        {recommended.length > 0 && (
+          <section className="mb-7 animate-fade-in-delay-2">
+            <Container size="lg">
+              <SectionHeader icon={Clock} title="Quick Watch" />
+            </Container>
+
+            <Container size="lg" noPadding>
+              <div className="flex gap-2.5 overflow-x-auto no-scrollbar px-4 sm:px-6 lg:px-8">
+                {recommended.map((drama) => (
+                  <ModernDramaCard
+                    key={drama.id}
+                    id={drama.id}
+                    title={drama.title}
+                    cover={drama.cover}
+                    rating={drama.rating}
+                    episodes={drama.episodes}
+                    duration={drama.duration}
+                    size="small"
+                  />
+                ))}
+              </div>
+            </Container>
+          </section>
+        )}
       </main>
 
-      {/* Bottom Navigation */}
       <BottomNav />
     </MobileWrapper>
   );

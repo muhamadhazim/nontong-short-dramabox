@@ -23,7 +23,7 @@ export default function DramaCard({
     return (
       <Link
         href={`/watch/${id}`}
-        className="block relative flex-shrink-0 w-[200px] group"
+        className="block relative flex-shrink-0 w-[200px] group" 
       >
         <div className="relative w-[200px] h-[280px] rounded-lg overflow-hidden">
           <Image
