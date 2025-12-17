@@ -88,9 +88,9 @@ export default function HomePage() {
 
   return (
     <MobileWrapper>
-      {/* Fixed Header */}
+      {/* Fixed Header - Full Width */}
       <header className="fixed top-0 left-0 right-0 bg-gradient-to-b from-nongton-black via-nongton-black/95 to-transparent backdrop-blur-sm z-40 px-4 py-3">
-        <div className="flex justify-between items-center max-w-2xl mx-auto">
+        <div className="flex justify-between items-center">
           <h1 className="text-2xl font-black text-nongton-red tracking-tight">
             NONGTON
           </h1>

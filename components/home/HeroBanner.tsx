@@ -9,7 +9,7 @@ interface HeroBannerProps {
 
 export default function HeroBanner({ title, cover, tags }: HeroBannerProps) {
   return (
-    <div className="relative w-full aspect-[3/4] sm:aspect-[4/5] md:aspect-[3/4]">
+    <div className="relative w-full aspect-[4/5] sm:aspect-[1/1] max-h-[60vh]">
       <Image
         src={cover}
         alt={title}
