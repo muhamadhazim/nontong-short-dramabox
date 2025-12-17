@@ -24,9 +24,9 @@ export default function ModernDramaCard({
   size = "medium",
 }: ModernDramaCardProps) {
   const sizeClasses = {
-    small: "w-[110px] h-[165px]",
-    medium: "w-[140px] h-[210px]",
-    large: "w-full h-[280px]",
+    small: "w-[130px] h-[195px]",
+    medium: "w-[160px] h-[240px] sm:w-[180px] sm:h-[270px]",
+    large: "w-full h-[320px]",
   };
 
   return (
@@ -34,50 +34,53 @@ export default function ModernDramaCard({
       href={`/watch/${id}`}
       className="block relative flex-shrink-0 group"
     >
-      <div className={`relative ${sizeClasses[size]} rounded-lg overflow-hidden`}>
+      <div className={`relative ${sizeClasses[size]} rounded-xl overflow-hidden shadow-lg`}>
         <Image
           src={cover}
           alt={title}
           fill
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
-          sizes={size === "large" ? "100vw" : "140px"}
+          className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+          sizes={size === "large" ? "100vw" : size === "medium" ? "180px" : "130px"}
         />
         
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+        {/* Strong gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90" />
         
         {/* NEW Badge */}
         {isNew && (
-          <div className="absolute top-2 right-2 bg-nongton-red text-white text-[9px] font-bold px-2 py-0.5 rounded-sm">
+          <div className="absolute top-2 right-2 bg-nongton-red text-white text-[10px] font-black px-2.5 py-1 rounded-md shadow-lg z-10">
             NEW
           </div>
         )}
 
-        {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-2.5">
-          <h3 className="text-white font-semibold text-xs line-clamp-2 mb-1 leading-tight">
+        {/* Content - Always inside the card */}
+        <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+          <h3 className="text-white font-bold text-sm sm:text-base line-clamp-2 mb-2 leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             {title}
           </h3>
           
           {/* Metadata */}
-          <div className="flex items-center gap-2 text-[10px] text-white/70">
+          <div className="flex items-center gap-2 text-[11px] sm:text-xs text-white/90">
             {rating && (
-              <div className="flex items-center gap-0.5">
-                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                <span className="text-yellow-400 font-medium">{rating}</span>
+              <div className="flex items-center gap-1">
+                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400 drop-shadow-sm" />
+                <span className="text-yellow-400 font-bold drop-shadow-sm">{rating}</span>
               </div>
             )}
             {episodes && (
-              <span>{episodes} EP</span>
+              <span className="font-medium drop-shadow-sm">{episodes} EP</span>
             )}
             {duration && (
-              <div className="flex items-center gap-0.5">
-                <Clock className="w-3 h-3" />
-                <span>{duration}</span>
+              <div className="flex items-center gap-1">
+                <Clock className="w-3 h-3 drop-shadow-sm" />
+                <span className="font-medium drop-shadow-sm">{duration}</span>
               </div>
             )}
           </div>
         </div>
+
+        {/* Hover overlay effect */}
+        <div className="absolute inset-0 bg-nongton-red/0 group-hover:bg-nongton-red/10 transition-colors duration-300" />
       </div>
     </Link>
   );
