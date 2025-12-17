@@ -1,65 +1,138 @@
-import Image from "next/image";
+import MobileWrapper from "@/components/layout/MobileWrapper";
+import BottomNav from "@/components/layout/BottomNav";
+import HeroBanner from "@/components/home/HeroBanner";
+import DramaCard from "@/components/shared/DramaCard";
+import { Search } from "lucide-react";
 
-export default function Home() {
+// Dummy data for initial UI
+const DUMMY_DRAMAS = [
+  {
+    id: "1",
+    title: "The Mysterious CEO",
+    cover: "https://picsum.photos/seed/drama1/400/600",
+    tags: ["Romance", "Drama", "CEO"],
+  },
+  {
+    id: "2",
+    title: "Return of the Legend",
+    cover: "https://picsum.photos/seed/drama2/400/600",
+    tags: ["Action", "Revenge"],
+  },
+  {
+    id: "3",
+    title: "Hidden Marriage",
+    cover: "https://picsum.photos/seed/drama3/400/600",
+    tags: ["Romance", "Marriage"],
+  },
+  {
+    id: "4",
+    title: "Reborn as a Billionaire",
+    cover: "https://picsum.photos/seed/drama4/400/600",
+    tags: ["Fantasy", "Wealthy"],
+  },
+  {
+    id: "5",
+    title: "My Ex-Wife's Secret",
+    cover: "https://picsum.photos/seed/drama5/400/600",
+    tags: ["Drama", "Mystery"],
+  },
+  {
+    id: "6",
+    title: "The Contract Bride",
+    cover: "https://picsum.photos/seed/drama6/400/600",
+    tags: ["Romance", "Contract"],
+  },
+  {
+    id: "7",
+    title: "Unexpected Love",
+    cover: "https://picsum.photos/seed/drama7/400/600",
+    tags: ["Romance", "Comedy"],
+  },
+  {
+    id: "8",
+    title: "Hidden Heir",
+    cover: "https://picsum.photos/seed/drama8/400/600",
+    tags: ["Drama", "Family"],
+  },
+];
+
+export default function HomePage() {
+  const featured = DUMMY_DRAMAS[0];
+  const trending = DUMMY_DRAMAS.slice(0, 10);
+  const latest = DUMMY_DRAMAS.slice(0, 8);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <MobileWrapper>
+      {/* Fixed Header */}
+      <header className="fixed top-0 left-0 right-0 md:left-auto md:right-auto md:max-w-[430px] md:mx-auto bg-nongton-black/80 backdrop-blur-md z-40 px-4 py-4 flex justify-between items-center border-b border-zinc-800/50">
+        <h1 className="text-2xl font-black text-nongton-red tracking-tight">
+          NONGTON
+        </h1>
+        <button className="hover:text-nongton-red transition-colors">
+          <Search className="w-6 h-6" />
+        </button>
+      </header>
+
+      {/* Main Content */}
+      <main className="pt-16 pb-20">
+        {/* Hero Banner */}
+        <HeroBanner
+          title={featured.title}
+          cover={featured.cover}
+          tags={featured.tags}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        {/* Top 10 Trending Section */}
+        <section className="px-4 mt-8 mb-8">
+          <h2 className="text-xl font-bold mb-4">Top 10 Trending</h2>
+          <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+            {trending.map((drama, index) => (
+              <DramaCard
+                key={drama.id}
+                id={drama.id}
+                title={drama.title}
+                cover={drama.cover}
+                rank={index + 1}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Latest Releases Section */}
+        <section className="px-4 mb-8">
+          <h2 className="text-xl font-bold mb-4">Latest Releases</h2>
+          <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+            {latest.map((drama) => (
+              <DramaCard
+                key={drama.id}
+                id={drama.id}
+                title={drama.title}
+                cover={drama.cover}
+                showBadge
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* For You Section */}
+        <section className="px-4 mb-8">
+          <h2 className="text-xl font-bold mb-4">For You</h2>
+          <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+            {DUMMY_DRAMAS.map((drama) => (
+              <DramaCard
+                key={drama.id}
+                id={drama.id}
+                title={drama.title}
+                cover={drama.cover}
+              />
+            ))}
+          </div>
+        </section>
       </main>
-    </div>
+
+      {/* Bottom Navigation */}
+      <BottomNav />
+    </MobileWrapper>
   );
 }
+
