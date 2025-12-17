@@ -1,53 +1,62 @@
 import Image from "next/image";
-import { Play, Plus } from "lucide-react";
+import { Play, Plus, Info } from "lucide-react";
 
 interface HeroBannerProps {
   title: string;
   cover: string;
   tags?: string[];
+  description?: string;
 }
 
-export default function HeroBanner({ title, cover, tags }: HeroBannerProps) {
+export default function HeroBanner({ title, cover, tags, description }: HeroBannerProps) {
   return (
-    <div className="relative w-full aspect-[4/5] sm:aspect-[1/1] max-h-[60vh]">
+    <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] max-h-[70vh]">
       <Image
         src={cover}
         alt={title}
         fill
         className="object-cover"
         priority
-        sizes="(max-width: 640px) 100vw, 640px"
+        sizes="100vw"
       />
       
       {/* Strong gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-nongton-black via-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-      {/* Content overlay */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-        <h1 className="text-2xl sm:text-3xl font-black drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] leading-tight mb-2 sm:mb-3">
+      {/* Content overlay - Netflix style (left aligned) */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8 md:p-12 max-w-2xl">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] leading-tight mb-3 sm:mb-4">
           {title}
         </h1>
         
         {tags && tags.length > 0 && (
           <div className="flex gap-2 flex-wrap mb-3 sm:mb-4">
-            {tags.slice(0, 3).map((tag, i) => (
+            {tags.map((tag, i) => (
               <span
                 key={i}
-                className="text-xs bg-white/20 backdrop-blur-md px-2.5 py-1 rounded-full font-medium"
+                className="text-xs sm:text-sm bg-white/20 backdrop-blur-md px-3 py-1 rounded font-medium"
               >
                 {tag}
               </span>
             ))}
           </div>
         )}
+
+        {description && (
+          <p className="text-sm sm:text-base text-white/90 mb-4 sm:mb-5 line-clamp-3 max-w-md drop-shadow-lg">
+            {description}
+          </p>
+        )}
         
-        <div className="flex gap-2.5 sm:gap-3">
-          <button className="flex-1 bg-nongton-red hover:bg-nongton-red/90 active:scale-95 transition-all text-white py-2.5 sm:py-3 rounded-lg flex items-center justify-center gap-2 font-bold shadow-lg">
-            <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white" />
+        <div className="flex gap-3 items-center">
+          <button className="bg-white hover:bg-white/90 active:scale-95 transition-all text-black px-6 sm:px-8 py-2 sm:py-3 rounded-md flex items-center justify-center gap-2 font-bold shadow-lg">
+            <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-black" />
             <span className="text-sm sm:text-base">Play</span>
           </button>
-          <button className="bg-white/20 backdrop-blur-md hover:bg-white/30 active:scale-95 transition-all text-white p-2.5 sm:p-3 rounded-lg flex items-center justify-center shadow-lg">
-            <Plus className="w-5 h-5 sm:w-6 sm:h-6" />
+          <button className="bg-gray-500/70 backdrop-blur-md hover:bg-gray-500/90 active:scale-95 transition-all text-white px-6 sm:px-8 py-2 sm:py-3 rounded-md flex items-center justify-center gap-2 font-bold shadow-lg">
+            <Info className="w-5 h-5 sm:w-6 sm:h-6" />
+            <span className="text-sm sm:text-base hidden sm:inline">More Info</span>
           </button>
         </div>
       </div>

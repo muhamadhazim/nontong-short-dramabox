@@ -24,8 +24,8 @@ export default function ModernDramaCard({
   size = "medium",
 }: ModernDramaCardProps) {
   const sizeClasses = {
-    small: "w-[120px] h-[180px]",
-    medium: "w-[145px] h-[218px] sm:w-[160px] sm:h-[240px]",
+    small: "w-[140px] h-[210px]",
+    medium: "w-[180px] h-[270px] sm:w-[200px] sm:h-[300px]",
     large: "w-full h-[320px]",
   };
 

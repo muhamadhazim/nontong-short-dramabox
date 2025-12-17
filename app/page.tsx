@@ -14,6 +14,7 @@ const DUMMY_DRAMAS = [
     rating: 4.7,
     episodes: 80,
     duration: "2min",
+    description: "A cold CEO meets a struggling artist. Their worlds collide in unexpected ways as secrets from the past resurface.",
   },
   {
     id: "2",
@@ -107,6 +108,7 @@ export default function HomePage() {
           title={featured.title}
           cover={featured.cover}
           tags={featured.tags}
+          description={featured.description}
         />
 
         {/* Trending Section */}
